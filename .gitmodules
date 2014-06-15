@@ -1,0 +1,3 @@
+[submodule "webapp/library/idiorm"]
+	path = webapp/library/idiorm
+	url = git@github.com:j4mie/idiorm.git
