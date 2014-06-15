@@ -1,18 +1,13 @@
 {
-  "name" : "SandwichBar",
-  "version" : "1.0.1",
-  "description" : "Shows an infobar on pages which contain the word 'sandwich'",
+  "name" : "antihoax",
+  "version" : "0.0.1",
+  "description" : "indicates if the content is a hoax",
   "background" : {
     "scripts": ["background.js"]
   },  
   "permissions": [
     "http://www.ptigas.com/"
   ],
-  "icons" : {
-    "16" : "sandwich-16.png",
-    "48" : "sandwich-48.png",
-    "128" : "sandwich-128.png"
-  },
   "content_scripts" : [
     {
       "matches" : [ 
