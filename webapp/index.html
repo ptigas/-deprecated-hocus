@@ -51,7 +51,7 @@
 
   <div class="row">
     <div class="col-md-3">
-      <div class="bs-page-sidebar" role="complementary">
+      <div class="bs-page-sidebar" role="complementary" style="display:none">
         <ul class="nav">
           <li><a href="#multiple">Upload hoax</a></li>                    
         </ul>
@@ -62,34 +62,43 @@
         <h2>Upload a hoax</h2>
         <p>Set the url to the article. Then write the evidence to support your case and hit submit.</p>
 
-        <form>
+        <form class="span12" id="postForm" action="submit.php" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
           <div class="form-group">
             <label>Url</label>
-            <input type="email" class="form-control" placeholder="Enter url">
+            <input type="url" class="form-control" name="url" placeholder="Enter url">
           </div>
           <div class="form-group">
             <label>Evidence</label>
-            <div class="editor"></div>        
-            <script>
-              $(document).ready(function() {
-                $('.editor').summernote();
-              });
-            </script>
+            <textarea id="editor" name="evidence"></textarea>
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
           <button type="button" id="cancel" class="btn">Cancel</button>
         </form>
       </section>
       <hr/>
-      
-      <hr/>
     </div>
   </div>
 </div>
 <footer class="footer">
   <div class="container">
-    <p>Antihoax is published under MIT license.</p>
+    <div class="col-md-3">      
+    </div>
+    <div class="col-md-9" role="main">
+      <p>Antihoax is published under MIT license.</p>
+    </div>
   </div>
 </footer>
+
+<script>
+  $(document).ready(function() {
+    $('#editor').summernote();
+  });
+
+  var postForm = function() {
+    var content = $('textarea[name="content"]').html($('#editor').code());
+  }
+
+</script>
+
 </body>
 </html>
