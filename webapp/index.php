@@ -1,3 +1,54 @@
+<?php 
+
+include 'library/idiorm/idiorm.php';
+include 'settings.php';
+
+// A named connection, where 'remote' is an arbitrary key name
+ORM::configure('mysql:host=localhost;dbname=' . $mysql_database, null, 'remote');
+ORM::configure('username', $mysql_username, 'remote');
+ORM::configure('password', $mysql_password, 'remote');
+
+$id = -1;
+$url = '';
+$evidence = '';
+$alert = '';
+
+if (isset($_POST['url']) && isset($_POST['evidence']))
+{
+  $url = $_POST['url'];
+  $evidence = $_POST['evidence'];
+
+  $hoax = ORM::for_table('hoax', 'remote')->where('url', $url);
+  if ($hoax->count() == 0)
+  {
+    $hoax = ORM::for_table('hoax', 'remote')->create();
+
+    $hoax->url = $url;
+    $hoax->evidence = $evidence;
+
+    $hoax->save();
+
+  } else {
+    $hoax = $hoax->find_one();
+    
+    // saving new information
+    $id = $hoax->id;
+    $hoax->evidence = $evidence;
+    $hoax->save();
+
+    $alert = "<div class=\"alert alert-warning\">Url already exists. Updating instead.</div>";
+  }
+}
+
+if (isset($_GET['id']))
+{
+  $hoax = ORM::for_table('hoax', 'remote')->find_one($_GET['id']);
+  $id = $hoax->id;
+  $url = $hoax->url;
+  $evidence = $hoax->evidence;
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,28 +98,28 @@
 </div>
 <div style="min-height:100px"></div>
 <div class="container">
-
   <div class="row">
     <div class="col-md-3">
       <div class="bs-page-sidebar" role="complementary" style="display:none">
         <ul class="nav">
-          <li><a href="#multiple">Upload hoax</a></li>                    
+          <li><a href="#multiple"><?php echo $id == -1 ? 'Upload' : 'Edit'; ?> hoax</a></li>                    
         </ul>
       </div>
     </div>
     <div class="col-md-9" role="main">
       <section>
-        <h2>Upload a hoax</h2>
+        <?php echo $alert; ?>
+        <h2><?php echo $id == -1 ? 'Upload' : 'Edit'; ?> hoax</h2>
         <p>Set the url to the article. Then write the evidence to support your case and hit submit.</p>
 
-        <form class="span12" id="postForm" action="submit.php" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
+        <form class="span12" id="postForm" action="" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
           <div class="form-group">
             <label>Url</label>
-            <input type="url" class="form-control" name="url" placeholder="Enter url">
+            <input type="url" class="form-control" name="url" placeholder="Enter url" value="<?php echo $url;?>"/>
           </div>
           <div class="form-group">
             <label>Evidence</label>
-            <textarea id="editor" name="evidence"></textarea>
+            <textarea id="editor" name="evidence"><?php echo $evidence;?></textarea>
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
           <button type="button" id="cancel" class="btn">Cancel</button>
