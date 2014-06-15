@@ -54,9 +54,8 @@ if (isset($_GET['id']))
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Summernote - Super Simple WYSIWYG editor on Bootstrap</title>
-  <meta name="description" content="Super Simple WYSIWYG Editor on Bootstrap">
-  <meta name="author" content="https://github.com/HackerWins">
+  <title>Antihoax - A mythbusting platform.</title>
+  <meta name="description" content="A mythbusting platform">  
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
