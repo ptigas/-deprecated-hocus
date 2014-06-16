@@ -33,15 +33,15 @@ if (isset($_GET['u']))
 		script.onload = script.onreadystatechange = function(){
 			if (!done && (!this.readyState || this.readyState == "loaded" || this.readyState == "complete")) {
 				done = true;
-				initMyBookmarklet();
+				init();
 			}
 		};
 		document.getElementsByTagName("head")[0].appendChild(script);
 	} else {
-		initMyBookmarklet();
+		init();
 	}
 
-	function initMyBookmarklet() {
+	function init() {
 		window.myBookmarklet = function() {						
 			var url = '<?php echo $url;?>';
 			//$(document.body).append('<iframe id="antihoax_frame" style="background:#eee; padding: 0px; position: fixed; top: 10px; right: 10px; z-index: 999999999;" frameborder="0" scrolling="no" width="350px" height="660px"></iframe>');
