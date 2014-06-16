@@ -1,12 +1,24 @@
 <?php
 
-$url = "";
+include 'library/idiorm/idiorm.php';
+include 'settings.php';
 
+// A named connection, where 'remote' is an arbitrary key name
+ORM::configure('mysql:host=localhost;dbname=' . $mysql_database, null, 'remote');
+ORM::configure('username', $mysql_username, 'remote');
+ORM::configure('password', $mysql_password, 'remote');
+
+$url = "";
+$is_hoax = false;
 if (isset($_GET['u']))
 {
-	$url = $_GET['u'];
+	$url = stripslashes(nl2br($_GET['u']));
 
-	// TODO: check if there is anything regarding this url
+	$hoax = ORM::for_table('hoax', 'remote')->where('url', $url);
+  	if ($hoax->count() > 0)
+  	{
+  		$is_hoax = true;
+  	}
 }
 
 ?>
@@ -31,12 +43,18 @@ if (isset($_GET['u']))
 
 	function initMyBookmarklet() {
 		window.myBookmarklet = function() {						
-			var url = decodeURIComponent('<?php echo $_GET['u'];?>');
+			var url = '<?php echo $url;?>';
 			//$(document.body).append('<iframe id="antihoax_frame" style="background:#eee; padding: 0px; position: fixed; top: 10px; right: 10px; z-index: 999999999;" frameborder="0" scrolling="no" width="350px" height="660px"></iframe>');
 
 			var data = 'checking ' + url + ' ...';
-			//$('#antihoax_frame').contents().find('html').html(data);
-			alert(data);
+			//$('#antihoax_frame').contents().find('html').html(data);			
+			if (<?php echo $is_hoax?'true':'false' ?>)
+			{
+				alert('ITS A HOAX');
+			} else
+			{
+				alert('all clear');
+			}
 		}();
 	}
 })();
