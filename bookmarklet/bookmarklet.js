@@ -1,7 +1,6 @@
-(function(){
-	var src = "http://localhost/antihoax/api.php?f=js&u="+url;
+(function(){	
 	var script = document.createElement("script");
-	script.src = src;
+	script.src = "http://localhost/antihoax/api.php?f=js&u="+document.URL;
 	script.onload = script.onreadystatechange = function(){
 		if (!done && (!this.readyState || this.readyState == "loaded" || this.readyState == "complete")) {
 			done = true;
