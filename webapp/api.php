@@ -43,11 +43,9 @@ if (isset($_GET['u']))
 
 	function init() {
 		window.myBookmarklet = function() {						
-			var url = '<?php echo $url;?>';
-			//$(document.body).append('<iframe id="antihoax_frame" style="background:#eee; padding: 0px; position: fixed; top: 10px; right: 10px; z-index: 999999999;" frameborder="0" scrolling="no" width="350px" height="660px"></iframe>');
-
+			var url = '<?php echo $url;?>';		
 			var data = 'checking ' + url + ' ...';
-			//$('#antihoax_frame').contents().find('html').html(data);			
+				
 			if (<?php echo $is_hoax?'true':'false' ?>)
 			{
 				alert('ITS A HOAX');
