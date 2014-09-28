@@ -1,26 +1,26 @@
-// Copyright (c) 2013 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+console.log( 'Background.html starting!' );
+	/*Put page action icon on all tabs*/
+	chrome.tabs.onUpdated.addListener(function(tabId) {
+		chrome.pageAction.show(tabId);
+	});
 
-/**
- * Handles requests sent by the content script.  Shows an infobar.
- */
- /*
-function onRequest(request, sender, sendResponse) {
-  // The number of matches is sent in the request - pass it to the
-  // infobar.
-  var url = "infobar.html#" + request.count;
-
-  // Show the infobar on the tab where the request was sent.
-  chrome.infobars.show({
-    tabId: sender.tab.id,
-    path: url
-  });
-
-  // Return nothing to let the connection be cleaned up.
-  sendResponse({});
-};
-
-// Listen for the content script to send a message to the background page.
-chrome.extension.onRequest.addListener(onRequest);
-*/
+	chrome.tabs.getSelected(null, function(tab) {
+		chrome.pageAction.show(tab.id);
+	});
+	
+	/*Send request to current tab when page action is clicked*/
+	chrome.pageAction.onClicked.addListener(function(tab) {
+		chrome.tabs.getSelected(null, function(tab) {
+			chrome.tabs.sendRequest(
+				//Selected tab id
+				tab.id,
+				//Params inside a object data
+				{callFunction: "toggleSidebar"}, 
+				//Optional callback function
+				function(response) {
+					console.log(response);
+				}
+			);
+		});
+	});
+console.log( 'Background.html done.' );

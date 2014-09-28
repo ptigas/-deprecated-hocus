@@ -1,23 +1,22 @@
 {
-  "name" : "antihoax",
-  "version" : "0.0.1",
-  "description" : "indicates if the content is a hoax",
-  "background" : {
-    "scripts": ["background.js"]
-  },  
-  "permissions": [
-    "http://www.ptigas.com/"
-  ],
-  "content_scripts" : [
-    {
-      "matches" : [ 
-         "http://*/*",
-         "https://*/*"
-      ],
-      "js" : [ "contentscript.js" ],
-      "run_at" : "document_idle",
-      "all_frames" : false
-    }
-  ],
-  "manifest_version": 2
+	"name": "Antihoax",
+	"manifest_version": 2,
+	"description": "Antihoax shield",
+	"version": "0.1",
+	"background": {
+		"page": "background.html"
+	},
+	"page_action": {
+		"default_icon": "icon.png",
+		"default_title": "antihoax"
+	},
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"js": ["script.js"]
+		}
+	],
+	"permissions": [
+		"tabs"
+	]
 }
