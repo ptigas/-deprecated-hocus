@@ -75,25 +75,7 @@ if (isset($_GET['id']))
 
   <!-- include summernote -->
   <link href="css/summernote.css" rel="stylesheet">
-  <link href="css/ladda-themeless.min.css" rel="stylesheet">
   <script src="js/summernote.min.js"></script>
-  <script src="js/spin.min.js"></script>
-  <script src="js/ladda.min.js"></script>
-
-  <script>
-  
-  function validate_hoax(e){
-    var l = Ladda.create(e);
-    l.start();
-    $.post("validate_hoax.php", 
-        { url : $('input[name=url]').val() },
-      function(response){
-        console.log(response);
-      }, "json")
-    .always(function() { l.stop(); });      
-  }
-
-  </script>
 
 </head>
 <body>
@@ -120,16 +102,30 @@ if (isset($_GET['id']))
 <div style="min-height:100px"></div>
 <div class="container">
   <div class="row">
-    <div role="main" style="text-align:center">
+    <div class="col-md-3">
+      <div class="bs-page-sidebar" role="complementary" style="display:none">
+        <ul class="nav">
+          <li><a href="#multiple"><?php echo $id == -1 ? 'Upload' : 'Edit'; ?> hoax</a></li>                    
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-9" role="main">
       <section>
-        <h2>Validate a hoax</h2>
-        <p>Set the url that points to the article. The rest is our job.</p>
+        <?php echo $alert; ?>
+        <h2><?php echo $id == -1 ? 'Upload' : 'Edit'; ?> hoax</h2>
+        <p>Set the url to the article. Then write the evidence to support your case and hit submit.</p>
 
-        <form class="form-inline" id="postForm" action="" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
-          <div class="form-group">            
-            <input type="url" class="form-control" style="width:500px" name="url" placeholder="Enter url" value="<?php echo $url;?>"/> 
-            <a href="#" onclick="validate_hoax(this); return false;" id="form-submit" class="btn btn-primary ladda-button" data-style="expand-right" data-size="l"><span class="ladda-label">Check</span></a>            
+        <form class="span12" id="postForm" action="" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
+          <div class="form-group">
+            <label>Url</label>
+            <input type="url" class="form-control" name="url" placeholder="Enter url" value="<?php echo $url;?>"/>
           </div>
+          <div class="form-group">
+            <label>Evidence</label>
+            <textarea id="editor" name="evidence"><?php echo $evidence;?></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" id="cancel" class="btn">Cancel</button>
         </form>
       </section>
       <hr/>

@@ -1,7 +1,7 @@
 <?php
 
-$mysql_database = DATABASE;
-$mysql_username = USERNAME;
-$mysql_password = PASSWORD;
+$mysql_database = 'antihoax';
+$mysql_username = 'root';
+$mysql_password = 'amilod';
 
 ?>
