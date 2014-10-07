@@ -3,13 +3,6 @@ sleep(3);
 
 require_once 'core.php';
 
-function normalize_url($url)
-{  
-  $normalizer = new \URL\Normalizer();
-  $normalizer->setUrl($url);
-  return $normalizer->normalize();
-}
-
 function check_url($url)
 {
 	return Hoax::fetch_hoax($url) != null;	

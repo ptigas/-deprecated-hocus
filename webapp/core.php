@@ -1,5 +1,11 @@
 <?php
 
+// include settings
+require_once 'settings.php';
+
+// set include path
+set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__));
+
 // include libraries and classes
 require_once 'includes.php';
 
