@@ -1,7 +1,7 @@
 <?php
 
 // Main hoax class
-public class Hoax
+class Hoax
 {
 	var $id;
 	var $evidence;

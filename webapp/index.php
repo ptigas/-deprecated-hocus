@@ -1,13 +1,6 @@
 <?php 
 
-include 'library/idiorm/idiorm.php';
-include 'library/normalizer/normalizer.php';
-include 'settings.php';
-
-// A named connection, where 'remote' is an arbitrary key name
-ORM::configure('mysql:host=localhost;dbname=' . $mysql_database, null, 'remote');
-ORM::configure('username', $mysql_username, 'remote');
-ORM::configure('password', $mysql_password, 'remote');
+include 'core.php';
 
 $id = -1;
 $url = '';
@@ -45,10 +38,7 @@ if (isset($_GET['id']))
 {
   $hoax = ORM::for_table('hoax', 'remote')->find_one($_GET['id']);
   $id = $hoax->id;
-  $url = $hoax->url;
-  $normalizer = new \URL\Normalizer();
-  $normalizer->setUrl($url);
-  $url = $normalizer->normalize();
+  $url = normalize_url($hoax->url);  
   $evidence = $hoax->evidence;
 }
 
@@ -85,9 +75,18 @@ if (isset($_GET['id']))
   function validate_hoax(e){
     var l = Ladda.create(e);
     l.start();
-    $.post("validate_hoax.php", 
-        { url : $('input[name=url]').val() },
+    $("#results").html("");
+    $.get("api.php", 
+        { u : $('input[name=url]').val() },
       function(response){
+        if (response == true)
+        {
+          $("#results").html("It's a hoax!");
+        }
+        else
+        {
+          $("#results").html("It looks safe.");
+        }
         console.log(response);
       }, "json")
     .always(function() { l.stop(); });      
@@ -128,9 +127,23 @@ if (isset($_GET['id']))
         <form class="form-inline" id="postForm" action="" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
           <div class="form-group">            
             <input type="url" class="form-control" style="width:500px" name="url" placeholder="Enter url" value="<?php echo $url;?>"/> 
-            <a href="#" onclick="validate_hoax(this); return false;" id="form-submit" class="btn btn-primary ladda-button" data-style="expand-right" data-size="l"><span class="ladda-label">Check</span></a>            
+            <a href="#" onclick="validate_hoax(this); return false;" id="form-submit" class="btn btn-primary ladda-button" data-style="expand-right" data-size="l"><span class="ladda-label">Check</span></a>                        
           </div>
         </form>
+      </section>
+      <section>
+        <div id="results">
+          {{score}} <a href="">how does this score getting computed?</a>
+          <p>
+            There are {{negative_reports}} reports about this document.
+          </p>
+          <p>
+            Here is some evidence according {{hoax_evidence_users_contributed}} users that reported it.
+          </p>
+          <div class="evidence">
+            {{hoax_evidence}}
+          </div>
+        </div>
       </section>
       <hr/>
     </div>
