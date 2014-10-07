@@ -1,26 +1,29 @@
 <?php
+sleep(3);
 
-include 'library/idiorm/idiorm.php';
-include 'settings.php';
+require_once 'core.php';
 
-// A named connection, where 'remote' is an arbitrary key name
-ORM::configure('mysql:host=localhost;dbname=' . $mysql_database, null, 'remote');
-ORM::configure('username', $mysql_username, 'remote');
-ORM::configure('password', $mysql_password, 'remote');
+function normalize_url($url)
+{  
+  $normalizer = new \URL\Normalizer();
+  $normalizer->setUrl($url);
+  return $normalizer->normalize();
+}
+
+function check_url($url)
+{
+	return Hoax::fetch_hoax($url) != null;	
+}
 
 $url = "";
 $is_hoax = false;
 if (isset($_GET['u']))
 {
-	$url = stripslashes(nl2br($_GET['u']));
+	$url = normalize_url(stripslashes(nl2br($_GET['u'])));
 
-	$hoax = ORM::for_table('hoax', 'remote')->where('url', $url);
-  	if ($hoax->count() > 0)
-  	{
-  		$is_hoax = true;
-  	}
+	echo check_url($url) ? 'true' : 'false';
 }
-
+/*
 ?>
 (function(){
 
@@ -56,3 +59,6 @@ if (isset($_GET['u']))
 		}();
 	}
 })();
+
+*/
+?>
