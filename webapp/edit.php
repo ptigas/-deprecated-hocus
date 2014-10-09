@@ -101,15 +101,8 @@ if (isset($_GET['id']))
 </div>
 <div style="min-height:100px"></div>
 <div class="container">
-  <div class="row">
-    <div class="col-md-3">
-      <div class="bs-page-sidebar" role="complementary" style="display:none">
-        <ul class="nav">
-          <li><a href="#multiple"><?php echo $id == -1 ? 'Upload' : 'Edit'; ?> hoax</a></li>                    
-        </ul>
-      </div>
-    </div>
-    <div class="col-md-9" role="main">
+  <div class="row">    
+    <div class="col-md-12" role="main">
       <section>
         <?php echo $alert; ?>
         <h2><?php echo $id == -1 ? 'Upload' : 'Edit'; ?> hoax</h2>

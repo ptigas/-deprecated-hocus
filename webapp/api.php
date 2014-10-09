@@ -1,20 +1,18 @@
 <?php
-sleep(3);
+//sleep(3);
 
 require_once 'core.php';
-
-function check_url($url)
-{
-	return Hoax::fetch_hoax($url) != null;	
-}
 
 $url = "";
 $is_hoax = false;
 if (isset($_GET['u']))
 {
-	$url = normalize_url(stripslashes(nl2br($_GET['u'])));
+	$url = Normalizer::normalize_url(stripslashes(nl2br($_GET['u'])));
 
-	echo check_url($url) ? 'true' : 'false';
+	$hoax = Hoax::fetch_hoax($url);
+
+	echo json_encode($hoax);
+	//echo check_url($url) ? 'true' : 'false';
 }
 /*
 ?>

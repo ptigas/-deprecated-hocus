@@ -34,14 +34,6 @@ if (isset($_POST['url']) && isset($_POST['evidence']))
   }
 }
 
-if (isset($_GET['id']))
-{
-  $hoax = ORM::for_table('hoax', 'remote')->find_one($_GET['id']);
-  $id = $hoax->id;
-  $url = normalize_url($hoax->url);  
-  $evidence = $hoax->evidence;
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -72,33 +64,46 @@ if (isset($_GET['id']))
 
   <script>
   
-  function validate_hoax(e){
-    var l = Ladda.create(e);
+  function validate_hoax(){    
+    var l = Ladda.create( document.querySelector('#form-submit') );
     l.start();
     $("#results").html("");
     $.get("api.php", 
         { u : $('input[name=url]').val() },
-      function(response){
-        if (response == true)
-        {
-          $("#results").html("It's a hoax!");
-        }
-        else
-        {
-          $("#results").html("It looks safe.");
-        }
-        console.log(response);
-      }, "json")
+        function(response){
+          console.log(response);
+          $("#results").show();
+          var html = '';
+          if (response == null)
+          {
+            html = "It doesn't look like a hoax";
+          }
+          else
+          {
+            html = "<div>" + response.evidence + " <a  class='btn btn-default btn-sm' href='edit.php?id=" + response.id + "'><span class='glyphicon glyphicon-pencil'></span> Edit</a></div>";            
+          }
+          $("#results").html(html);
+        }, "json")
     .always(function() { l.stop(); });      
   }
 
   </script>
 
+  <style>
+  /* Main marketing message and sign up button */
+  .jumbotron {
+    text-align: center;
+    background-color: transparent;
+  }
+  </style>
+
 </head>
 <body>
 <!-- navbar -->
-<div class="navbar navbar-default navbar-fixed-top bs-page-navbar" role="banner">
-  <div class="container">
+
+<div class="container">    
+  <div class="navbar navbar-default navbar-fixed-top bs-page-navbar" role="banner">
+
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
         <span class="sr-only">Toggle navigation</span>
@@ -115,40 +120,27 @@ if (isset($_GET['id']))
       </ul>
     </div>
   </div>
-</div>
-<div style="min-height:100px"></div>
-<div class="container">
-  <div class="row">
-    <div role="main" style="text-align:center">
-      <section>
-        <h2>Validate a hoax</h2>
-        <p>Set the url that points to the article. The rest is our job.</p>
 
-        <form class="form-inline" id="postForm" action="" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
-          <div class="form-group">            
-            <input type="url" class="form-control" style="width:500px" name="url" placeholder="Enter url" value="<?php echo $url;?>"/> 
-            <a href="#" onclick="validate_hoax(this); return false;" id="form-submit" class="btn btn-primary ladda-button" data-style="expand-right" data-size="l"><span class="ladda-label">Check</span></a>                        
-          </div>
-        </form>
-      </section>
-      <section>
-        <div id="results">
-          {{score}} <a href="">how does this score getting computed?</a>
-          <p>
-            There are {{negative_reports}} reports about this document.
-          </p>
-          <p>
-            Here is some evidence according {{hoax_evidence_users_contributed}} users that reported it.
-          </p>
-          <div class="evidence">
-            {{hoax_evidence}}
-          </div>
-        </div>
-      </section>
-      <hr/>
-    </div>
+  <div class="jumbotron">  
+      <div class="row">
+        <div role="" style="text-align:center; margin-top:100px; padding-bottom:100px">
+          <section>
+            <h2>Validate a hoax</h2>
+            <p>Set the url that points to the article. The rest is our job.</p>
+
+            <form class="form-inline" id="postForm" action="javascript:validate_hoax()" method="POST" enctype="multipart/form-data">
+              <div class="form-group">            
+                <input type="text" class="form-control" style="width:500px" name="url" placeholder="Enter url" value="<?php echo $url;?>"/> 
+                <a href="#" onclick="validate_hoax(); return false;" id="form-submit" class="btn btn-primary ladda-button" data-style="expand-right" data-size="l"><span class="ladda-label">Check</span></a>                                        
+              </div>
+            </form>
+          </section>                  
+        </div>        
+        <div class="row" id="results" style="display:none; text-align:left; background:#eee; padding:20px"></div>    
+      </div>      
   </div>
 </div>
+
 <footer class="footer">
   <div class="container">
     <div class="col-md-3">      
