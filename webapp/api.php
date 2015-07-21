@@ -1,6 +1,4 @@
 <?php
-//sleep(3);
-
 require_once 'core.php';
 
 $url = "";
@@ -10,46 +8,18 @@ if (isset($_GET['u']))
 	$url = Normalizer::normalize_url(stripslashes(nl2br($_GET['u'])));
 
 	$hoax = Hoax::fetch_hoax($url);
-
-	echo json_encode($hoax);
-	//echo check_url($url) ? 'true' : 'false';
+	$is_hoax = $hoax !== null;
 }
-/*
-?>
-(function(){
 
-	var v = "1.3.2";
+if (isset($_GET['f']) && $_GET['f'] == 'js') {
 
-	if (window.jQuery === undefined || window.jQuery.fn.jquery < v) {
-		var done = false;
-		var script = document.createElement("script");
-		script.src = "http://ajax.googleapis.com/ajax/libs/jquery/" + v + "/jquery.min.js";
-		script.onload = script.onreadystatechange = function(){
-			if (!done && (!this.readyState || this.readyState == "loaded" || this.readyState == "complete")) {
-				done = true;
-				init();
-			}
-		};
-		document.getElementsByTagName("head")[0].appendChild(script);
-	} else {
-		init();
-	}
+	echo $twig->render('bookmarklet.js', array(
+		'url' => $url,
+		'is_hoax' => $is_hoax ? 'true':'false'
+		)
+	);
 
-	function init() {
-		window.myBookmarklet = function() {						
-			var url = '<?php echo $url;?>';		
-			var data = 'checking ' + url + ' ...';
-				
-			if (<?php echo $is_hoax?'true':'false' ?>)
-			{
-				alert('ITS A HOAX');
-			} else
-			{
-				alert('all clear');
-			}
-		}();
-	}
-})();
-
-*/
+} else {
+	echo json_encode($hoax);
+}
 ?>

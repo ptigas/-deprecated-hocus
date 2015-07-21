@@ -1,7 +1,8 @@
 <?php
 
+require dirname(__FILE__) . '/../vendor/autoload.php';
+
 // include libraries
-require_once 'library/idiorm/idiorm.php';
 require_once 'library/normalizer/normalizer.php';
 
 // include core classes

@@ -9,6 +9,12 @@ set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__));
 // include libraries and classes
 require_once 'includes.php';
 
+// set template
+$twig_loader = new Twig_Loader_Filesystem(dirname(__FILE__) . '/templates');
+$twig = new Twig_Environment($twig_loader, array(
+    'cache' => dirname(__FILE__) . '/compilation_cache',
+));
+
 // initialize database
 ORM::configure('mysql:host=localhost;dbname=' . $mysql_database, null, 'remote');
 ORM::configure('username', $mysql_username, 'remote');
