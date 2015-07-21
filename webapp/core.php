@@ -12,7 +12,7 @@ require_once 'includes.php';
 // set template
 $twig_loader = new Twig_Loader_Filesystem(dirname(__FILE__) . '/templates');
 $twig = new Twig_Environment($twig_loader, array(
-    'cache' => dirname(__FILE__) . '/compilation_cache',
+    'cache' => $template_cache ? dirname(__FILE__) . '/compilation_cache' : false,
 ));
 
 // initialize database

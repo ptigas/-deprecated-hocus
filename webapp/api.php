@@ -12,13 +12,11 @@ if (isset($_GET['u']))
 }
 
 if (isset($_GET['f']) && $_GET['f'] == 'js') {
-
 	echo $twig->render('bookmarklet.js', array(
 		'url' => $url,
 		'is_hoax' => $is_hoax ? 'true':'false'
 		)
 	);
-
 } else {
 	echo json_encode($hoax);
 }
