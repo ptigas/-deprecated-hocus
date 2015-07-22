@@ -1,12 +1,12 @@
 <?php
 
-require dirname(__FILE__) . '/../vendor/autoload.php';
+require_once dirname(__FILE__) . '/vendor/autoload.php';
 
 // include libraries
-require_once 'library/normalizer/normalizer.php';
+require_once dirname(__FILE__) . '/library/normalizer/normalizer.php';
 
 // include core classes
-require_once 'includes/Hoax.php';
-require_once 'includes/Helpers/Normalizer.php';
+require_once dirname(__FILE__) . '/includes/Hoax.php';
+require_once dirname(__FILE__) . '/includes/Helpers/Normalizer.php';
 
 ?>
