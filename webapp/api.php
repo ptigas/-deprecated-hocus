@@ -21,10 +21,10 @@ if (isset($_GET['f'])){
 			break;
 		case 'sidebar':
 			
-			if ($hoax) 
-			{
-				echo $hoax->evidence;
-			}			
+			echo $twig->render('sidebar.html', array(
+					'url' => $url,
+					'evidence' => $hoax ? $hoax->evidence : ''
+				));			
 
 			break;
 		default:
