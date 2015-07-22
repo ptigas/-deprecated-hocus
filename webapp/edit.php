@@ -3,7 +3,7 @@
 include 'core.php';
 
 $id = -1;
-$url = '';
+$url = isset($_POST['url']) ? $_POST['url'] : '';
 $evidence = '';
 $alert = '';
 
