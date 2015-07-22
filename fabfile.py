@@ -13,3 +13,4 @@ def deploy():
 	with cd('repos/hocus'):
 		run('cp -r webapp/* ~/Sites/hocus.io/')	
 		run('cp -r vendor ~/Sites/hocus.io/.')
+		run('cp -r ~/Sites/hocus.io/settings.prod.php ~/Sites/hocus.io/settings.php')
