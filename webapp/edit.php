@@ -3,7 +3,7 @@
 include 'core.php';
 
 $id = -1;
-$url = isset($_POST['url']) ? $_POST['url'] : '';
+$url = '';
 $evidence = '';
 $alert = '';
 
@@ -34,17 +34,28 @@ if (isset($_POST['url']) && isset($_POST['evidence']))
   }
 }
 
-if (isset($_GET['id']))
-{
+if (isset($_GET['url'])) {
+  $url = $_GET['url'];
+
+  $normalizer = new \URL\Normalizer();
+  $normalizer->setUrl($url);
+  $url = $normalizer->normalize();
+
+  $hoax = ORM::for_table('hoax', 'remote')->where('url', $url)->find_one();
+  if ($hoax) {
+    $id = $hoax->id;
+    $url = $hoax->url;  
+    $evidence = $hoax->evidence;
+  }  
+} else if (isset($_GET['id']))
+{  
   $hoax = ORM::for_table('hoax', 'remote')->find_one($_GET['id']);
   $id = $hoax->id;
-  $url = $hoax->url;
-  $normalizer = new \URL\Normalizer();
+  $url = $hoax->url;  
   $normalizer->setUrl($url);
   $url = $normalizer->normalize();
   $evidence = $hoax->evidence;
 }
-
 
 echo $twig->render('edit.html', array( 
   'base' => $base,
