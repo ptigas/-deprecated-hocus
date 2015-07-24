@@ -47,7 +47,8 @@ if (isset($_GET['url'])) {
     $url = $hoax->url;  
     $evidence = $hoax->evidence;
   }  
-} else if (isset($_GET['id']))
+} 
+else if (isset($_GET['id']))
 {  
   $hoax = ORM::for_table('hoax', 'remote')->find_one($_GET['id']);
   $id = $hoax->id;
