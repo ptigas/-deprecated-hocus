@@ -38,7 +38,8 @@
       </div>
       <ul class="nav navbar-nav navbar">
         <li class="active"><a href="/">Home</a></li>
-        <li><a href="about.php">About</a></li>
+        <li><a href="javascript:(function()%7B(function()%7Bvar%20e%3Ddocument.createElement(%22script%22)%3Be.src%3D%22%2F%2Fhocus.io%2Fapi.php%3Ff%3Djs%26u%3D%22%2BencodeURIComponent(document.URL)%3Be.onload%3De.onreadystatechange%3Dfunction()%7Bif(!done%26%26(!this.readyState%7C%7Cthis.readyState%3D%3D%22loaded%22%7C%7Cthis.readyState%3D%3D%22complete%22))%7Bdone%3Dtrue%7D%7D%3Bdocument.getElementsByTagName(%22head%22)%5B0%5D.appendChild(e)%7D)()%7D)()">Bookmarklet</a></li>
+        <li><a href="about.php">About</a></li>    
       </ul>      
     </div>
   </div>
@@ -55,7 +56,7 @@
         <form class="span12" id="postForm" action="" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
           <div class="form-group">
             <label>Url</label>
-            <input type="url" class="form-control" name="url" placeholder="Enter url" value=""/>
+            <input type="url" class="form-control" name="url" placeholder="Enter url" value="{{url}}"/>
           </div>
           <div class="form-group">
             <label>Evidence</label>
