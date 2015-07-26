@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>hocus.io</title>
+  <link rel="shortcut icon" href="//hocus.io/assets/favicon.ico" />
+  <meta name="description" content="A mythbusting platform">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="//twitter.github.io/bootstrap/assets/js/html5shiv.js"></script>
+  <![endif]-->
+
+  <!-- include jquery and bootstrap and font-awesome -->
+  <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+
+  <!-- include summernote -->
+  <link href="css/summernote.css" rel="stylesheet">
+  <link href="css/ladda-themeless.min.css" rel="stylesheet">
+  <script src="js/summernote.min.js"></script>
+  <script src="js/spin.min.js"></script>
+  <script src="js/ladda.min.js"></script>
+
+  <script>
+  
+  function validate_hoax(){    
+    var l = Ladda.create( document.querySelector('#form-submit') );
+    l.start();
+    $("#results").html("");
+    $.get("api.php", 
+        { u : $('input[name=url]').val() },
+        function(response){
+          console.log(response);
+          $("#results").show();
+          var html = '';
+          if (response == null)
+          {
+            html = "It doesn't look like a hoax";
+          }
+          else
+          {
+            html = "<div>" + response.evidence + " <a  class='btn btn-default btn-sm' href='edit.php?id=" + response.id + "'><span class='glyphicon glyphicon-pencil'></span> Edit</a></div>";            
+          }
+          $("#results").html(html);
+        }, "json")
+    .always(function() { l.stop(); });      
+  }
+
+  </script>
+
+  <style>
+  /* Main marketing message and sign up button */
+  .jumbotron {
+    text-align: center;
+    background-color: transparent;
+  }
+  </style>
+
+</head>
+<body>
+<!-- navbar -->
+  <div class="navbar navbar-default navbar-fixed-top bs-page-navbar" role="banner">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/"><img style="position:relative; top:-3px" src="assets/logo.png" /></a>      
+      </div>
+      <ul class="nav navbar-nav navbar">
+        <li class="active"><a href="/">Home</a></li>
+        <li><a href="javascript:(function()%7B(function()%7Bvar%20e%3Ddocument.createElement(%22script%22)%3Be.src%3D%22%2F%2Fhocus.io%2Fapi.php%3Ff%3Djs%26u%3D%22%2BencodeURIComponent(document.URL)%3Be.onload%3De.onreadystatechange%3Dfunction()%7Bif(!done%26%26(!this.readyState%7C%7Cthis.readyState%3D%3D%22loaded%22%7C%7Cthis.readyState%3D%3D%22complete%22))%7Bdone%3Dtrue%7D%7D%3Bdocument.getElementsByTagName(%22head%22)%5B0%5D.appendChild(e)%7D)()%7D)()">Bookmarklet</a></li>
+        <li><a href="about.php">About</a></li>        
+      </ul>
+    </div>
+  </div>
+<div class="container">    
+  <div class="jumbotron">  
+      <div class="row">
+        <div role="" style="text-align:center; margin-top:100px; padding-bottom:100px">
+          <section>
+            <h2>Validate a hoax</h2>
+            <p>Set the url that points to the article. The rest is our job.</p>
+
+            <form class="form-inline" id="postForm" action="javascript:validate_hoax()" method="POST" enctype="multipart/form-data">
+              <div class="form-group">            
+                <input type="text" class="form-control" style="width:500px" name="url" placeholder="Enter url" value="{{ url }}"/> 
+                <a href="#" onclick="validate_hoax(); return false;" id="form-submit" class="btn btn-primary ladda-button" data-style="expand-right" data-size="l"><span class="ladda-label">Check</span></a>                                        
+              </div>
+            </form>
+          </section>                  
+        </div>        
+        <div class="row" id="results" style="display:none; text-align:left; background:#eee; padding:20px"></div>    
+      </div>      
+  </div>
+</div>
+
+{% include 'footer.html' %}
+
+</body>
+</html>

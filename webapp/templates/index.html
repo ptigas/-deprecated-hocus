@@ -12,15 +12,139 @@
     <script src="//twitter.github.io/bootstrap/assets/js/html5shiv.js"></script>
   <![endif]-->
 
-  <!-- include jquery and bootstrap and font-awesome -->
-  <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
-  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+  <!-- include jquery and bootstrap and font-awesome -->  
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">  
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
 
   <!-- include summernote -->
   <link href="css/summernote.css" rel="stylesheet">
   <link href="css/ladda-themeless.min.css" rel="stylesheet">
+
+  <style>
+
+  /* Main marketing message and sign up button */
+  .jumbotron {
+    text-align: center;
+    background-color: transparent;
+  }
+.btn-sample { 
+  color: #ffffff; 
+  background-color: #E1C227; 
+  border-color: #E1C227; 
+} 
+ 
+.btn-sample:hover, 
+.btn-sample:focus, 
+.btn-sample:active, 
+.btn-sample.active, 
+.open .dropdown-toggle.btn-sample { 
+  color: #ffffff; 
+  background-color: #F2DE79; 
+  border-color: #E1C227; 
+} 
+ 
+.btn-sample:active, 
+.btn-sample.active, 
+.open .dropdown-toggle.btn-sample { 
+  background-image: none; 
+} 
+ 
+.btn-sample.disabled, 
+.btn-sample[disabled], 
+fieldset[disabled] .btn-sample, 
+.btn-sample.disabled:hover, 
+.btn-sample[disabled]:hover, 
+fieldset[disabled] .btn-sample:hover, 
+.btn-sample.disabled:focus, 
+.btn-sample[disabled]:focus, 
+fieldset[disabled] .btn-sample:focus, 
+.btn-sample.disabled:active, 
+.btn-sample[disabled]:active, 
+fieldset[disabled] .btn-sample:active, 
+.btn-sample.disabled.active, 
+.btn-sample[disabled].active, 
+fieldset[disabled] .btn-sample.active { 
+  background-color: #E1C227; 
+  border-color: #E1C227; 
+} 
+ 
+.btn-sample .badge { 
+  color: #E1C227; 
+  background-color: #ffffff; 
+}
+  .banner {
+    background: url('assets/banner_bg.gif') repeat-x;
+    height:327;
+    text-align:center;
+  }
+
+  li a {
+    color:#333;
+  }
+
+  .navbar.center .navbar-inner {
+    text-align: center;
+}
+
+.navbar.center .navbar-inner .nav {
+    display:inline-block;
+    float: none;
+}
+
+
+  .navbar {
+    padding:0;
+    margin:0;
+  }
+  </style>
+
+</head>
+<body>
+<!-- navbar -->
+  <div class="navbar bs-page-navbar center" role="banner">
+
+  <div class="row">
+
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/"><img src="assets/logo.png" height="40px" /></a>      
+      </div>
+    <div class="navbar-inner">
+      <ul class="nav navbar-nav" style="margin-left:-180px; margin-top:10px">
+        <li class="active"><a href="/">HOME</a></li>
+        <li><a href="javascript:(function()%7B(function()%7Bvar%20e%3Ddocument.createElement(%22script%22)%3Be.src%3D%22%2F%2Fhocus.io%2Fapi.php%3Ff%3Djs%26u%3D%22%2BencodeURIComponent(document.URL)%3Be.onload%3De.onreadystatechange%3Dfunction()%7Bif(!done%26%26(!this.readyState%7C%7Cthis.readyState%3D%3D%22loaded%22%7C%7Cthis.readyState%3D%3D%22complete%22))%7Bdone%3Dtrue%7D%7D%3Bdocument.getElementsByTagName(%22head%22)%5B0%5D.appendChild(e)%7D)()%7D)()">BOOKMARKLET</a></li>
+        <li><a href="about.php">ABOUT</a></li>        
+      </ul>
+    </div>
+  </div>
+<div style="height:2px; background-color:#eb3a11; position:relative;"></div>
+<div class='banner'>
+<img src="assets/banner.gif" />
+</div>
+<div class="container">    
+  <div class="jumbotron">  
+      <div class="row">
+        <div role="" style="text-align:center; padding-bottom:100px">
+          <section>
+            <p>Set the url that points to the article. The rest is our job.</p>
+
+            <form class="form-inline" id="postForm" action="javascript:validate_hoax()" method="POST" enctype="multipart/form-data">
+              <div class="form-group">            
+                <input type="text" class="form-control" style="width:500px" name="url" placeholder="Enter url" value="{{ url }}"/> 
+                <a href="#" onclick="validate_hoax(); return false;" id="form-submit" class="btn btn-primary ladda-button btn-sample" data-style="expand-right" data-size="l"><span class="ladda-label">Check</span></a>                                        
+              </div>
+            </form>
+          </section>                  
+        </div>        
+        <div class="row" id="results" style="display:none; text-align:left; background:#eee; padding:20px"></div>    
+      </div>      
+  </div>
+</div>
+
+{% include 'footer.html' %}
+
+<script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
   <script src="js/summernote.min.js"></script>
   <script src="js/spin.min.js"></script>
   <script src="js/ladda.min.js"></script>
@@ -52,58 +176,6 @@
 
   </script>
 
-  <style>
-  /* Main marketing message and sign up button */
-  .jumbotron {
-    text-align: center;
-    background-color: transparent;
-  }
-  </style>
-
-</head>
-<body>
-<!-- navbar -->
-  <div class="navbar navbar-default navbar-fixed-top bs-page-navbar" role="banner">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/"><img style="position:relative; top:-3px" src="assets/logo.png" /></a>      
-      </div>
-      <ul class="nav navbar-nav navbar">
-        <li class="active"><a href="/">Home</a></li>
-        <li><a href="javascript:(function()%7B(function()%7Bvar%20e%3Ddocument.createElement(%22script%22)%3Be.src%3D%22%2F%2Fhocus.io%2Fapi.php%3Ff%3Djs%26u%3D%22%2BencodeURIComponent(document.URL)%3Be.onload%3De.onreadystatechange%3Dfunction()%7Bif(!done%26%26(!this.readyState%7C%7Cthis.readyState%3D%3D%22loaded%22%7C%7Cthis.readyState%3D%3D%22complete%22))%7Bdone%3Dtrue%7D%7D%3Bdocument.getElementsByTagName(%22head%22)%5B0%5D.appendChild(e)%7D)()%7D)()">Bookmarklet</a></li>
-        <li><a href="about.php">About</a></li>        
-      </ul>
-    </div>
-  </div>
-<div class="container">    
-  <div class="jumbotron">  
-      <div class="row">
-        <div role="" style="text-align:center; margin-top:100px; padding-bottom:100px">
-          <section>
-            <h2>Validate a hoax</h2>
-            <p>Set the url that points to the article. The rest is our job.</p>
-
-            <form class="form-inline" id="postForm" action="javascript:validate_hoax()" method="POST" enctype="multipart/form-data">
-              <div class="form-group">            
-                <input type="text" class="form-control" style="width:500px" name="url" placeholder="Enter url" value="{{ url }}"/> 
-                <a href="#" onclick="validate_hoax(); return false;" id="form-submit" class="btn btn-primary ladda-button" data-style="expand-right" data-size="l"><span class="ladda-label">Check</span></a>                                        
-              </div>
-            </form>
-          </section>                  
-        </div>        
-        <div class="row" id="results" style="display:none; text-align:left; background:#eee; padding:20px"></div>    
-      </div>      
-  </div>
-</div>
-
-{% include 'footer.html' %}
-
 <script>
   $(document).ready(function() {
     $('#editor').summernote();
@@ -112,7 +184,6 @@
   var postForm = function() {
     var content = $('textarea[name="content"]').html($('#editor').code());
   }
-
 </script>
 
 </body>
