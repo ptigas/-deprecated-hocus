@@ -1,0 +1,112 @@
+
+  /* Main marketing message and sign up button */
+  .jumbotron {
+    text-align: center;
+    background-color: transparent;
+  }
+  .btn-sample {
+    color: #ffffff;
+    background-color: #E1C227;
+    border-color: #E1C227;
+  }
+
+  .btn-sample:hover,
+  .btn-sample:focus,
+  .btn-sample:active,
+  .btn-sample.active,
+  .open .dropdown-toggle.btn-sample {
+    color: #ffffff;
+    background-color: #F2DE79;
+    border-color: #E1C227;
+  }
+
+  .btn-sample:active,
+  .btn-sample.active,
+  .open .dropdown-toggle.btn-sample {
+    background-image: none;
+  }
+
+  .btn-sample.disabled,
+  .btn-sample[disabled],
+  fieldset[disabled] .btn-sample,
+  .btn-sample.disabled:hover,
+  .btn-sample[disabled]:hover,
+  fieldset[disabled] .btn-sample:hover,
+  .btn-sample.disabled:focus,
+  .btn-sample[disabled]:focus,
+  fieldset[disabled] .btn-sample:focus,
+  .btn-sample.disabled:active,
+  .btn-sample[disabled]:active,
+  fieldset[disabled] .btn-sample:active,
+  .btn-sample.disabled.active,
+  .btn-sample[disabled].active,
+  fieldset[disabled] .btn-sample.active {
+    background-color: #E1C227;
+    border-color: #E1C227;
+  }
+
+  .btn-sample .badge {
+    color: #E1C227;
+    background-color: #ffffff;
+  }
+  .banner {
+    background: url('../assets/banner_bg.gif') repeat-x;
+    height:327;
+    text-align:center;
+  }
+
+  .navbar-inner li a {
+    color:#333;
+  }
+
+  .navbar-inner li a:hover {
+    color:#E1C227;
+    background:none;
+  }
+
+  .navbar.center .navbar-inner {
+    text-align: center;
+  }
+
+  .navbar.center .navbar-inner .nav {
+    display:inline-block;
+    float: none;
+  }
+
+  .navbar {
+    padding:0;
+    margin:0;
+  }
+
+.second-level-nav {
+  min-height: 2px;
+  background-color:#eb3a11;
+  z-index: 99999;
+}
+
+.second-level-nav .nav {
+  margin:0px;
+}
+
+.second-level-nav li a {
+  color:white;
+  font-size:13px;
+  height:28px;
+  padding-top:6px
+}
+
+.second-level-nav li a:hover {
+  background:none;
+  color:#333;
+}
+
+.move-up {
+  position:relative;
+  top:-31px;
+  z-index:-10;
+}
+
+.show {
+  display:block;
+  position:relative;
+}
