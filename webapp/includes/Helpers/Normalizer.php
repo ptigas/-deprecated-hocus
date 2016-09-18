@@ -1,4 +1,5 @@
 <?php
+namespace Hocus;
 
 class Normalizer
 {

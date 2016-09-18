@@ -5,7 +5,7 @@ $url = "";
 $is_hoax = false;
 if (isset($_GET['u']))
 {
-	$url = Normalizer::normalize_url(stripslashes(nl2br($_GET['u'])));
+	$url = \Hocus\Normalizer::normalize_url(stripslashes(nl2br($_GET['u'])));
 
 	$hoax = Hoax::fetch_hoax($url);
 	$is_hoax = $hoax !== null;
