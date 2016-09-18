@@ -16,6 +16,7 @@ if (isset($_GET['f'])){
 		case 'js':
 			echo $twig->render('bookmarklet.js', array(
 					'url' => $url,
+					'url_base64' => base64_encode($url),
 					'is_hoax' => $is_hoax ? 'true':'false'
 				));
 			break;
