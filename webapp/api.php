@@ -15,8 +15,7 @@ if (isset($_GET['f'])){
 	switch ($_GET['f']) {
 		case 'js':
 			echo $twig->render('bookmarklet.js', array(
-					'url' => $url,
-					'url_base64' => base64_encode($url),
+					'url' => $url,					
 					'is_hoax' => $is_hoax ? 'true':'false'
 				));
 			break;
@@ -24,6 +23,7 @@ if (isset($_GET['f'])){
 			
 			echo $twig->render('sidebar.html', array(
 					'url' => $url,
+					'url_base64' => base64_encode($url),
 					'evidence' => $hoax ? $hoax->evidence : ''
 				));			
 
