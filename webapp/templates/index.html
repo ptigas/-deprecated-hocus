@@ -58,9 +58,9 @@
   <div class="container">
     <div class="jumbotron">
       <div class="row">
-        <div role="" style="text-align:center; padding-bottom:100px">
+        <div role="" style="text-align:center; padding-bottom:0px">
           <section>
-            <p>Set the url that points to the article. The rest is our job.</p>
+            <p>Set the url that points to the article you want to check.</p>
 
             <form class="form-inline" id="postForm" action="javascript:validate_hoax()" method="POST" enctype="multipart/form-data">
               <div class="form-group">
@@ -70,7 +70,7 @@
             </form>
           </section>
         </div>
-        <div class="row" id="results" style="display:none; text-align:left; background:#eee; padding:20px"></div>
+        <div class="row" id="results" style="display:none; text-align:left; background:#eee; padding:20px; margin-top:20px; font-size:18px"></div>
       </div>
     </div>
   </div>
@@ -89,23 +89,26 @@
     var l = Ladda.create( document.querySelector('#form-submit') );
     l.start();
     $("#results").html("");
+    
     $.get("api.php",
-    { u : $('input[name=url]').val() },
-    function(response){
-      console.log(response);
-      $("#results").show();
-      var html = '';
-      if (response == null)
-      {
-        html = "It doesn't look like a hoax";
-      }
-      else
-      {
-        html = "<div>" + response.evidence + " <a  class='btn btn-default btn-sm' href='edit.php?id=" + response.id + "'><span class='glyphicon glyphicon-pencil'></span> Edit</a></div>";
-      }
-      $("#results").html(html);
-    }, "json")
-    .always(function() { l.stop(); });
+      { 
+        u : $('input[name=url]').val() 
+      }, function(response) {
+
+        // hide the banner
+        $("#banner").slideUp(100);
+        
+        console.log(response);
+        $("#results").show();
+        var html = '';
+        if (response == null) {
+          html = "<div>It doesn't look like a hoax <a  class='btn btn-default btn-sm' href='edit/u/" + btoa($('input[name=url]').val()) + "/'><span class='glyphicon glyphicon-pencil'></span> Edit</a></div>";
+        } else {
+          html = "<div>" + response.evidence + " <a  class='btn btn-default btn-sm' href='edit/i/" + response.id + "/'><span class='glyphicon glyphicon-pencil'></span> Edit</a></div>";
+        }
+        $("#results").html(html);
+      }, "json")
+      .always(function() { l.stop(); });
   }
 
   </script>

@@ -19,8 +19,8 @@
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
 
   <!-- include summernote -->
-  <link href="css/summernote.css" rel="stylesheet">
-  <script src="js/summernote.min.js"></script>
+  <link href="{{ base }}/css/summernote.css" rel="stylesheet">
+  <script src="{{ base }}/js/summernote.min.js"></script>
 
 </head>
 <body>
@@ -34,15 +34,16 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/"><img style="position:relative; top:-3px" src="assets/logo.png" />
+        <a class="navbar-brand" href="{{ base }}"><img style="position:relative; top:-3px" height="40px" src="{{ base }}/assets/logo.png" />
       </div>
       <ul class="nav navbar-nav navbar">
-        <li class="active"><a href="/">Home</a></li>
+        <li class="active"><a href="{{ base }}">Home</a></li>
         <li><a href="javascript:(function()%7B(function()%7Bvar%20e%3Ddocument.createElement(%22script%22)%3Be.src%3D%22%2F%2Fhocus.io%2Fapi.php%3Ff%3Djs%26u%3D%22%2BencodeURIComponent(document.URL)%3Be.onload%3De.onreadystatechange%3Dfunction()%7Bif(!done%26%26(!this.readyState%7C%7Cthis.readyState%3D%3D%22loaded%22%7C%7Cthis.readyState%3D%3D%22complete%22))%7Bdone%3Dtrue%7D%7D%3Bdocument.getElementsByTagName(%22head%22)%5B0%5D.appendChild(e)%7D)()%7D)()">Bookmarklet</a></li>
         <li><a href="about.php">About</a></li>    
       </ul>      
     </div>
   </div>
+
 <div style="min-height:100px"></div>
 <div class="container">
   <div class="row">    
@@ -60,7 +61,7 @@
           </div>
           <div class="form-group">
             <label>Evidence</label>
-            <textarea id="editor" name="evidence">{{ evidence }}</textarea>
+            <textarea id="editor" name="evidence" style="display:none">{{ evidence }}</textarea>
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
           <button type="button" id="cancel" class="btn">Cancel</button>

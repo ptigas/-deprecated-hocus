@@ -9,7 +9,7 @@ $alert = '';
 
 if (isset($_POST['url']) && isset($_POST['evidence']))
 {
-  $url = $_POST['url'];
+  $url = base64_decode($_POST['url']);
   $evidence = $_POST['evidence'];
 
   $hoax = ORM::for_table('hoax', 'remote')->where('url', $url);
@@ -35,7 +35,7 @@ if (isset($_POST['url']) && isset($_POST['evidence']))
 }
 
 if (isset($_GET['url'])) {
-  $url = $_GET['url'];
+  $url = base64_decode($_GET['url']);
 
   $normalizer = new \URL\Normalizer();
   $normalizer->setUrl($url);
