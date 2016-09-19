@@ -34,7 +34,10 @@ if (isset($_POST['url']) && isset($_POST['evidence']))
   }
 }
 
-echo $twig->render('index.html', array( 'url' => $url ));
+echo $twig->render('index.html', array( 
+  'url' => $url,
+  'hoaxes' => 102
+  ));
 
 ?>
 
