@@ -34,10 +34,10 @@ if (isset($_POST['url']) && isset($_POST['evidence']))
   }
 }
 
+$normalizer = new \URL\Normalizer();
 if (isset($_GET['url'])) {
   $url = base64_decode($_GET['url']);
-
-  $normalizer = new \URL\Normalizer();
+  
   $normalizer->setUrl($url);
   $url = $normalizer->normalize();
 
