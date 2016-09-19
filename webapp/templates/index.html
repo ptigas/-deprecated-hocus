@@ -38,6 +38,7 @@
   }
   
   </style>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
   <!-- navbar -->
@@ -78,6 +79,10 @@
               
       </form>
     </div>
+    <!--
+    <div class="g-recaptcha" data-sitekey="6LfCIQcUAAAAAIlD7IOQgHA4QQ9qUtHO8OF8uzG2"></div>
+    -->
+
   </div>
 
   <div class="container">
@@ -112,6 +117,7 @@
         u : $('input[name=url]').val() 
       }, function(response) {
 
+        var url = $('input[name=url]').val() 
         // hide the banner
         $("#banner").slideUp(100);
         
@@ -124,6 +130,8 @@
         $("#search").css( "margin-top", "0" );
         $("#search").css( "border-bottom", "2px #333 solid" );        
         $("#second_searchbox").show();
+
+        //history.pushState('data to be passed', 'check ' + url, "{{ base }}c/" + btoa(url) + "/");
         
         var html = '';
         if (response == null) {
@@ -131,6 +139,13 @@
         } else {
           html = "<div>" + response.evidence + " <br/><a  class='btn btn-default btn-sm' href='edit/i/" + response.id + "/'><span class='glyphicon glyphicon-pencil'></span> Edit</a></div>";
         }
+        /*
+        if (response == null) {
+          html = "<div>It doesn't look like a hoax <br/><a  class='btn btn-default btn-sm' href='edit/u/" + btoa($('input[name=url]').val()) + "/'><span class='glyphicon glyphicon-pencil'></span> Edit</a></div>";
+        } else {
+          html = "<div>" + response.evidence + " <br/><a  class='btn btn-default btn-sm' href='edit/i/" + response.id + "/'><span class='glyphicon glyphicon-pencil'></span> Edit</a></div>";
+        }
+        */
         $("#results").html(html);
       }, "json")
       .always(function() { l.stop(); });
@@ -140,12 +155,43 @@
 
   <script>
   $(document).ready(function() {
-    $('#editor').summernote();
+    $('#editor').summernote({
+      focus: true,
+      height: 200,
+      placeholder: 'Type to add some evidence',
+      airMode: true,
+      toolbar: [
+        // [groupName, [list of button]]
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['font', ['strikethrough', 'superscript', 'subscript']],                
+        ['para', ['ul', 'ol', 'paragraph']]        
+      ]
+    });
+
+    var typingTimer;                //timer identifier
+    var doneTypingInterval = 500;  //time in ms, 5 second for example
+    $("#search").on('keyup', function () {
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    });
+
+    //on keydown, clear the countdown 
+    $("#search").on('keydown', function () {
+      clearTimeout(typingTimer);
+    });
+
+    function doneTyping () {
+      if ($('input[name=url]').val() != "") {
+        validate_hoax();
+      }      
+    }
+
   });
 
   var postForm = function() {
     var content = $('textarea[name="content"]').html($('#editor').code());
   }
+
   </script>
 
 </body>

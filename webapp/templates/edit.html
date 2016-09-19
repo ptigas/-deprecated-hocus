@@ -4,85 +4,170 @@
   <meta charset="utf-8">
   <title>hocus.io</title>
   <link rel="shortcut icon" href="//hocus.io/assets/favicon.ico" />
-  <meta name="description" content="A mythbusting platform">  
+  <meta name="description" content="A mythbusting platform">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
-    <script src="//twitter.github.io/bootstrap/assets/js/html5shiv.js"></script>
+  <script src="//twitter.github.io/bootstrap/assets/js/html5shiv.js"></script>
   <![endif]-->
 
   <!-- include jquery and bootstrap and font-awesome -->
-  <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
   <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
 
   <!-- include summernote -->
   <link href="{{ base }}/css/summernote.css" rel="stylesheet">
-  <script src="{{ base }}/js/summernote.min.js"></script>
+  <link href="{{ base }}/css/ladda-themeless.min.css" rel="stylesheet">
+  <link href="{{ base }}/css/hocus.css" rel="stylesheet">
 
+  <style>
+  #search {
+    width:700px;     
+    font-size: 1.75em;
+    height: 2em;    
+    background: none; 
+    border: none; 
+    
+    background: rgba(255, 255, 255, .8);
+    color: #333;
+    padding-left:20px;
+  }
+
+  #search:focus {
+    outline: none;
+  }
+  
+  </style>
 </head>
 <body>
   <!-- navbar -->
-  <div class="navbar navbar-default navbar-fixed-top bs-page-navbar" role="banner">
+  <div class="navbar bs-page-navbar center" role="banner">
+
     <div class="container">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="{{ base }}"><img style="position:relative; top:-3px" height="40px" src="{{ base }}/assets/logo.png" />
+        <a class="navbar-brand" href="{{ base }}"><img src="{{ base }}/assets/logo.png" height="30px" /></a>
       </div>
-      <ul class="nav navbar-nav navbar">
-        <li class="active"><a href="{{ base }}">Home</a></li>
-        <li><a href="javascript:(function()%7B(function()%7Bvar%20e%3Ddocument.createElement(%22script%22)%3Be.src%3D%22%2F%2Fhocus.io%2Fapi.php%3Ff%3Djs%26u%3D%22%2BencodeURIComponent(document.URL)%3Be.onload%3De.onreadystatechange%3Dfunction()%7Bif(!done%26%26(!this.readyState%7C%7Cthis.readyState%3D%3D%22loaded%22%7C%7Cthis.readyState%3D%3D%22complete%22))%7Bdone%3Dtrue%7D%7D%3Bdocument.getElementsByTagName(%22head%22)%5B0%5D.appendChild(e)%7D)()%7D)()">Bookmarklet</a></li>
-        <li><a href="about.php">About</a></li>    
-      </ul>      
+      <div class="navbar-inner">
+        <ul class="nav navbar-nav" style="margin-left: 40px; text-align: center; margin-top:5px">
+          <li class="active"><a href="{{ base }}">HOME</a></li>
+          <li><a href="javascript:(function()%7B(function()%7Bvar%20e%3Ddocument.createElement(%22script%22)%3Be.src%3D%22%2F%2Fhocus.io%2Fapi.php%3Ff%3Djs%26u%3D%22%2BencodeURIComponent(document.URL)%3Be.onload%3De.onreadystatechange%3Dfunction()%7Bif(!done%26%26(!this.readyState%7C%7Cthis.readyState%3D%3D%22loaded%22%7C%7Cthis.readyState%3D%3D%22complete%22))%7Bdone%3Dtrue%7D%7D%3Bdocument.getElementsByTagName(%22head%22)%5B0%5D.appendChild(e)%7D)()%7D)()">BOOKMARKLET</a></li>
+          <li><a href="javascript:$('#second-level-nav').toggle();">ABOUT</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" style="margin-top:5px">
+          <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
+      </div>
     </div>
+
+    <!-- second level of navbar -->
+    <div class='second-level-nav' style='position:absolute; right:0; left:0'>
+      <div class="navbar-inner" id="second-level-nav" style="display:none; ">
+        <ul class="nav navbar-nav" style="margin-left:-20px">
+          <li class="active"><a href="/">TEAM</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="about.php">CONTACT</a></li>
+        </ul>
+      </div>
+    </div>    
   </div>
 
-<div style="min-height:100px"></div>
-<div class="container">
-  <div class="row">    
-    <div class="col-md-12" role="main">
-      <section>
+  <div class="container">
+    <div class="jumbotron">
+      <div class="row">        
+        <section id="second_searchbox"></section>
+
+        <form class="form-inline" id="search_form" action="javascript:validate_hoax()" method="POST" enctype="multipart/form-data">
+      <input autocomplete="off" autofocus="autofocus" name="url" id="search" placeholder="type url to check e.g. hocus.io" type="search" value="{{ url }}" style="border-bottom: 2px #333 solid"/>
+        <a style="display:none" href="#" onclick="validate_hoax(); return false;" id="form-submit" class="btn btn-primary ladda-button btn-sample" data-style="expand-right" data-size="l"><span class="ladda-label">Check</span></a>
+              
+      </form>
+    
+
+        <div class="row" id="results" class="center" style="text-align:left; width:700px; margin: auto; margin-top:20px; font-size:16px;">
+
         {{ alert|raw }}
-        <?php echo $alert; ?>
-        <h2>{{ id == -1 ? 'Upload' : 'Edit' }} hoax</h2>
-        <p>Set the url to the article. Then write the evidence to support your case and hit submit.</p>
+        <?php echo $alert; ?>        
 
         <form class="span12" id="postForm" action="" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
-          <div class="form-group">
-            <label>Url</label>
-            <input type="url" class="form-control" name="url" placeholder="Enter url" value="{{url}}"/>
-          </div>
-          <div class="form-group">
-            <label>Evidence</label>
-            <textarea id="editor" name="evidence" style="display:none">{{ evidence }}</textarea>
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <button type="button" id="cancel" class="btn">Cancel</button>
-        </form>
-      </section>
-      <hr/>
+          <input type="hidden" name="url" value="{{url}}"/>
+          <textarea id="editor" name="evidence" style="display:none; min-height: 200px">{{ evidence }}</textarea>
+          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" id="cancel" class="btn" onclick="javascript:window.location.href='{{ base }}'; return false;">Cancel</button>
+          </form>
+
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-{% include 'footer.html' %}
+  {% include 'footer.html' %}
 
-<script>
+  <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+  <script src="{{ base }}/js/summernote.min.js"></script>
+  <script src="{{ base }}/js/spin.min.js"></script>
+  <script src="{{ base }}/js/ladda.min.js"></script>
+
+  <script>
+
+  function validate_hoax(){
+    var l = Ladda.create( document.querySelector('#form-submit') );
+    l.start();
+    $("#results").html("");
+    
+    $.get("api.php",
+      { 
+        u : $('input[name=url]').val()
+      }, function(response) {
+
+        // hide the banner
+        $("#banner").slideUp(100);
+        
+        console.log(response);
+        $("#stats").hide();
+        $("#results").show();
+
+        // move search_form
+        $("#search_form").appendTo("#second_searchbox");
+        $("#search").css( "margin-top", "0" );
+        $("#search").css( "border-bottom", "2px #333 solid" );        
+        $("#second_searchbox").show();
+        
+        var html = '';
+        if (response == null) {
+          html = "<div>It doesn't look like a hoax <br/><a  class='btn btn-default btn-sm' href='edit/u/" + btoa($('input[name=url]').val()) + "/'><span class='glyphicon glyphicon-pencil'></span> Edit</a></div>";
+        } else {
+          html = "<div>" + response.evidence + " <br/><a  class='btn btn-default btn-sm' href='edit/i/" + response.id + "/'><span class='glyphicon glyphicon-pencil'></span> Edit</a></div>";
+        }
+        $("#results").html(html);
+      }, "json")
+      .always(function() { l.stop(); });
+  }
+
+  </script>
+
+  <script>
   $(document).ready(function() {
-    $('#editor').summernote();
+    $('#editor').summernote({
+      focus: true,
+      height: 200,
+      placeholder: 'Type to add some evidence',
+      airMode: true,
+      toolbar: [
+        // [groupName, [list of button]]
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['font', ['strikethrough', 'superscript', 'subscript']],                
+        ['para', ['ul', 'ol', 'paragraph']]        
+      ]
+    });
   });
 
   var postForm = function() {
     var content = $('textarea[name="content"]').html($('#editor').code());
   }
-</script>
+  </script>
 
 </body>
 </html>
