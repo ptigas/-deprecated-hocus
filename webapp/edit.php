@@ -9,7 +9,7 @@ $alert = '';
 
 if (isset($_POST['url']) && isset($_POST['evidence']))
 {
-  $url = base64_decode($_POST['url']);
+  $url = $_POST['url'];
   $evidence = $_POST['evidence'];
 
   $hoax = ORM::for_table('hoax', 'remote')->where('url', $url);
@@ -28,7 +28,7 @@ if (isset($_POST['url']) && isset($_POST['evidence']))
     // saving new information
     $id = $hoax->id;
     $hoax->evidence = $evidence;
-    $hoax->save();
+    $hoax->save();      
 
     $alert = "<div class=\"alert alert-warning\">Url already exists. Updating instead.</div>";
   }
