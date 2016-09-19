@@ -7,6 +7,8 @@ $url = '';
 $evidence = '';
 $alert = '';
 
+$recaptcha = new \ReCaptcha\ReCaptcha("6LfCIQcUAAAAANNQY46_GZ25ZU2rGxKL-utCmZXT");
+
 if (isset($_POST['url']) && isset($_POST['evidence']))
 {
   $url = $_POST['url'];
@@ -35,6 +37,7 @@ if (isset($_POST['url']) && isset($_POST['evidence']))
 }
 
 echo $twig->render('index.html', array( 
+  'base' => $base,
   'url' => $url,
   'hoaxes' => 102
   ));
