@@ -27,7 +27,7 @@
     height: 2em;    
     background: none; 
     border: none; 
-    border-bottom: 2px #fff solid; 
+    
     background: rgba(255, 255, 255, .8);
     color: #333;
     padding-left:20px;
@@ -36,6 +36,7 @@
   #search:focus {
     outline: none;
   }
+  
   </style>
 </head>
 <body>
@@ -44,13 +45,17 @@
 
     <div class="container">
       <div class="navbar-header">
-        <a class="navbar-brand" href="{{ base }}"><img src="assets/logo.png" height="40px" /></a>
+        <a class="navbar-brand" href="{{ base }}"><img src="assets/logo.png" height="30px" /></a>
       </div>
       <div class="navbar-inner">
-        <ul class="nav navbar-nav" style="margin-left:-180px; margin-top:10px">
+        <ul class="nav navbar-nav" style="margin-left: 40px; text-align: center; margin-top:5px">
           <li class="active"><a href="{{ base }}">HOME</a></li>
           <li><a href="javascript:(function()%7B(function()%7Bvar%20e%3Ddocument.createElement(%22script%22)%3Be.src%3D%22%2F%2Fhocus.io%2Fapi.php%3Ff%3Djs%26u%3D%22%2BencodeURIComponent(document.URL)%3Be.onload%3De.onreadystatechange%3Dfunction()%7Bif(!done%26%26(!this.readyState%7C%7Cthis.readyState%3D%3D%22loaded%22%7C%7Cthis.readyState%3D%3D%22complete%22))%7Bdone%3Dtrue%7D%7D%3Bdocument.getElementsByTagName(%22head%22)%5B0%5D.appendChild(e)%7D)()%7D)()">BOOKMARKLET</a></li>
           <li><a href="javascript:$('#second-level-nav').toggle();">ABOUT</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" style="margin-top:5px">
+          <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         </ul>
       </div>
     </div>
@@ -69,7 +74,7 @@
     <div class='banner' id='banner' style="background:url('assets/banner.gif') center; height:327px">
     <form class="form-inline" id="search_form" action="javascript:validate_hoax()" method="POST" enctype="multipart/form-data">
       <input autocomplete="off" autofocus="autofocus" name="url" id="search" placeholder="type url to check e.g. hocus.io" type="search" value="{{ url }}" style="margin-top:180px;"/>
-        <a href="#" onclick="validate_hoax(); return false;" id="form-submit" class="btn btn-primary ladda-button btn-sample" data-style="expand-right" data-size="l"><span class="ladda-label">Check</span></a>
+        <a style="display:none" href="#" onclick="validate_hoax(); return false;" id="form-submit" class="btn btn-primary ladda-button btn-sample" data-style="expand-right" data-size="l"><span class="ladda-label">Check</span></a>
               
       </form>
     </div>
@@ -82,7 +87,7 @@
           <b>{{ hoaxes }}</b> hoaxes has been filed so far.          
         </div>
         <section id="second_searchbox" style="display:none"></section>
-        <div class="row" id="results" style="display:none; text-align:left; background:#eee; padding:20px; margin-top:20px; font-size:18px"></div>
+        <div class="row" id="results" class="center" style="display:none; text-align:left; width:700px; margin: auto; margin-top:20px; font-size:16px;"></div>
       </div>
     </div>
   </div>
@@ -117,13 +122,14 @@
         // move search_form
         $("#search_form").appendTo("#second_searchbox");
         $("#search").css( "margin-top", "0" );
+        $("#search").css( "border-bottom", "2px #333 solid" );        
         $("#second_searchbox").show();
         
         var html = '';
         if (response == null) {
-          html = "<div>It doesn't look like a hoax <a  class='btn btn-default btn-sm' href='edit/u/" + btoa($('input[name=url]').val()) + "/'><span class='glyphicon glyphicon-pencil'></span> Edit</a></div>";
+          html = "<div>It doesn't look like a hoax <br/><a  class='btn btn-default btn-sm' href='edit/u/" + btoa($('input[name=url]').val()) + "/'><span class='glyphicon glyphicon-pencil'></span> Edit</a></div>";
         } else {
-          html = "<div>" + response.evidence + " <a  class='btn btn-default btn-sm' href='edit/i/" + response.id + "/'><span class='glyphicon glyphicon-pencil'></span> Edit</a></div>";
+          html = "<div>" + response.evidence + " <br/><a  class='btn btn-default btn-sm' href='edit/i/" + response.id + "/'><span class='glyphicon glyphicon-pencil'></span> Edit</a></div>";
         }
         $("#results").html(html);
       }, "json")
