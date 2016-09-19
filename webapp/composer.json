@@ -1,6 +1,7 @@
 {
     "require": {
         "j4mie/idiorm": "^1.5",
-        "twig/twig": "^1.18"
+        "twig/twig": "^1.18",
+        "google/recaptcha": "~1.1"
     }
 }
