@@ -112,9 +112,9 @@
     l.start();
     $("#results").html("");
     
-    $.get("api.php",
+    $.get("{{ base }}/api/u/" + btoa($('input[name=url]').val()) + "/json",
       { 
-        u : $('input[name=url]').val() 
+        
       }, function(response) {
 
         var url = $('input[name=url]').val() 
