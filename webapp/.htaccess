@@ -1,5 +1,4 @@
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^edit/u/([^\.]+)/$ edit.php?url=$1 [NC,L]
-RewriteRule ^c/([^\.]+)/$ edit.php?url=$1 [NC,L]
-RewriteRule ^edit/i/([^\.]+)/$ edit.php?id=$1 [NC,L]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
