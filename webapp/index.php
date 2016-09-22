@@ -47,6 +47,45 @@ $app->get('/edit/i/{id}/', function ($request, $response, $args) {
     ));
 });
 
+function update($request, $response, $args) {
+    global $twig;
+    global $base;
+
+    $url = $request->getParsedBody()['url'];
+    $evidence = $request->getParsedBody()['evidence'];
+
+    $hoax = ORM::for_table('hoax', 'remote')->where('url', $url);
+    if ($hoax->count() == 0)
+    {
+      $hoax = ORM::for_table('hoax', 'remote')->create();
+
+      $hoax->url = $url;
+      $hoax->evidence = $evidence;
+
+      $hoax->save();
+
+    } else {
+      $hoax = $hoax->find_one();
+      
+      // saving new information
+      $id = $hoax->id;
+      $hoax->evidence = $evidence;
+      $hoax->save();      
+
+      $alert = "<div class=\"alert alert-warning\">Url already exists. Updating instead.</div>";
+    }
+    
+    return  $twig->render('edit.html', array( 
+      'base' => $base,
+      'url' => $url,
+      'evidence' => $evidence,
+      'alert' => $alert,
+      'id' => $id
+    ));
+}
+$app->post('/edit/i/{id}/', update);
+$app->post('/edit/u/{url}/', update);
+
 $app->get('/edit/u/{url}/', function ($request, $response, $args) {
     global $twig;
     global $base;
