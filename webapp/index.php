@@ -7,11 +7,11 @@ $app = new \Slim\App();
 // Main
 $app->get('/', function ($request, $response, $args) {
     global $twig;
-    global $base;
+    global $base;    
 
     return $twig->render('index.html', array( 
       'base' => $base,      
-      'hoaxes' => 103
+      'hoaxes' => count(ORM::for_table('hoax', 'remote')->find_many())
     ));
 });
 
