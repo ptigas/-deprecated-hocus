@@ -28,13 +28,19 @@
     background: none; 
     border: none; 
     
-    background: rgba(255, 255, 255, .8);
+    background-color: rgba(255, 255, 255, .8);
     color: #333;
     padding-left:20px;
   }
 
   #search:focus {
     outline: none;
+  }
+
+  .searching-animation {
+    position: relative;
+    left: -45px;
+    top:-5px;
   }
   
   </style>
@@ -74,6 +80,7 @@
     <div class='banner' id='banner' style="background:url('assets/banner.gif') center; height:327px">
     <form class="form-inline" id="search_form" action="javascript:validate_hoax()" method="POST" enctype="multipart/form-data">
       <input autocomplete="off" autofocus="autofocus" name="url" id="search" placeholder="type url to check e.g. hocus.io" type="search" value="{{ url }}" style="margin-top:180px;"/>
+      <img class="searching-animation" id="searching-animation" style="display:none" src="{{ base }}/assets/rolling.svg" />
         <a style="display:none" href="#" onclick="validate_hoax(); return false;" id="form-submit" class="btn btn-primary ladda-button btn-sample" data-style="expand-right" data-size="l"><span class="ladda-label">Check</span></a>
               
       </form>
@@ -106,7 +113,7 @@
 
   <script>
 
-  function validate_hoax(){
+  function validate_hoax(){    
     var l = Ladda.create( document.querySelector('#form-submit') );
     l.start();
     $("#results").html("");
@@ -115,6 +122,8 @@
       { 
         
       }, function(response) {
+
+        $("#searching-animation").hide()
 
         var url = $('input[name=url]').val() 
         // hide the banner
@@ -176,6 +185,7 @@
 
     //on keydown, clear the countdown 
     $("#search").on('keydown', function () {
+      $("#searching-animation").show()
       clearTimeout(typingTimer);
     });
 
