@@ -1,0 +1,5 @@
+webapp/settings.php
+*.pyc
+*.DS_Store
+webapp/compilation_cache/
+webapp/vendor/
