@@ -15,6 +15,16 @@ $app->get('/', function ($request, $response, $args) {
     ));
 });
 
+// Main
+$app->get('/about/', function ($request, $response, $args) {
+    global $twig;
+    global $base;    
+
+    return $twig->render('about.html', array( 
+      'base' => $base      
+    ));
+});
+
 $app->get('/u/{url}/', function ($request, $response, $args) {
     global $twig;
 
