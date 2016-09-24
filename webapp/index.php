@@ -2,6 +2,21 @@
 
 include 'core.php';
 
+function normalize_url($url) {
+    $url = \Hocus\Normalizer::normalize_url($url);
+    
+    if (!preg_match('#^http(s)?://#', $url)) {
+      $url = 'http://' . $url;
+    }
+
+    $parsed_url = parse_url($url);
+    if (!$parsed_url['path']) {
+      $url .= "/";
+    }
+
+    return $url;
+}
+
 $app = new \Slim\App();
 
 // Main
@@ -62,6 +77,7 @@ function update($request, $response, $args) {
     global $base;
 
     $url = $request->getParsedBody()['url'];
+    $url = normalize_url($url);
     $evidence = $request->getParsedBody()['evidence'];
 
     $hoax = ORM::for_table('hoax', 'remote')->where('url', $url);
@@ -100,7 +116,9 @@ $app->get('/edit/u/{url}/', function ($request, $response, $args) {
     global $twig;
     global $base;
 
+
     $url = base64_decode($request->getAttribute('url'));
+    $url = normalize_url($url);
 
     $hoax = ORM::for_table('hoax', 'remote')->where('url', $url)->find_one();
 
@@ -124,13 +142,10 @@ $app->get('/edit/u/{url}/', function ($request, $response, $args) {
 $app->get('/api/u/{url}/{type}', function ($request, $response, $args) {
     global $twig;
 
-    $url = \Hocus\Normalizer::normalize_url(base64_decode($request->getAttribute('url')));
+    $url = base64_decode($request->getAttribute('url'));    
+
     $hoax = Hoax::fetch_hoax($url);
     $is_hoax = $hoax !== null;
-
-    if (!preg_match('#^http(s)?://#', $url)) {
-      $url = 'http://' . $url;
-    }
 
     $type = $request->getAttribute('type');
     switch ($type) {
@@ -157,46 +172,4 @@ $app->get('/api/u/{url}/{type}', function ($request, $response, $args) {
 });
 
 $app->run();
-/*
-$id = -1;
-$url = '';
-$evidence = '';
-$alert = '';
-
-$recaptcha = new \ReCaptcha\ReCaptcha("6LfCIQcUAAAAANNQY46_GZ25ZU2rGxKL-utCmZXT");
-
-if (isset($_POST['url']) && isset($_POST['evidence']))
-{
-  $url = $_POST['url'];
-  $evidence = $_POST['evidence'];
-
-  $hoax = ORM::for_table('hoax', 'remote')->where('url', $url);
-  if ($hoax->count() == 0)
-  {
-    $hoax = ORM::for_table('hoax', 'remote')->create();
-
-    $hoax->url = $url;
-    $hoax->evidence = $evidence;
-
-    $hoax->save();
-
-  } else {
-    $hoax = $hoax->find_one();
-    
-    // saving new information
-    $id = $hoax->id;
-    $hoax->evidence = $evidence;
-    $hoax->save();
-
-    $alert = "<div class=\"alert alert-warning\">Url already exists. Updating instead.</div>";
-  }
-}
-
-echo $twig->render('index.html', array( 
-  'base' => $base,
-  'url' => $url,
-  'hoaxes' => 102
-  ));
-*/
 ?>
-
