@@ -128,6 +128,10 @@ $app->get('/api/u/{url}/{type}', function ($request, $response, $args) {
     $hoax = Hoax::fetch_hoax($url);
     $is_hoax = $hoax !== null;
 
+    if (!preg_match('#^http(s)?://#', $url)) {
+      $url = 'http://' . $url;
+    }
+
     $type = $request->getAttribute('type');
     switch ($type) {
     case 'js':
