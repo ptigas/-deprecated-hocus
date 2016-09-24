@@ -116,9 +116,7 @@ $app->get('/edit/u/{url}/', function ($request, $response, $args) {
     global $twig;
     global $base;
 
-
-    $url = base64_decode($request->getAttribute('url'));
-    $url = normalize_url($url);
+    $url = base64_decode($request->getAttribute('url'));    
 
     $hoax = ORM::for_table('hoax', 'remote')->where('url', $url)->find_one();
 
@@ -143,7 +141,8 @@ $app->get('/api/u/{url}/{type}', function ($request, $response, $args) {
     global $twig;
 
     $url = base64_decode($request->getAttribute('url'));    
-
+    $url = normalize_url($url);
+    
     $hoax = Hoax::fetch_hoax($url);
     $is_hoax = $hoax !== null;
 
